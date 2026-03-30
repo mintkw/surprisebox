@@ -1,0 +1,16 @@
+{
+  "name": "surprisebox",
+  "version": "1.0.0",
+  "description": "A toybox you can draw slips of paper from.",
+  "license": "ISC",
+  "author": "mintkw",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron": "^41.1.0"
+  }
+}
