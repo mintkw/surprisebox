@@ -1,0 +1,19 @@
+{
+    "texts": [
+        {
+            "content": "Example text entry 1",
+            "author": "Author 1",
+            "save-timestamp": "2026-06-12"
+        },
+        {
+            "content": "Example text entry 2",
+            "author": "Author 2",
+            "save-timestamp": "2026-06-12"
+        },
+        {
+            "content": "Example text entry 3",
+            "author": "Author 3",
+            "save-timestamp": "2026-06-12"
+        }
+    ]
+}
