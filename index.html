@@ -7,14 +7,23 @@
 
     <link rel="stylesheet" href="./style.css">
     
-    <!-- <script type="text/javascript" src="data.json" defer></script> -->
     <script src="./renderer.js" defer></script>
 
     <title>Surprisebox</title>
+    
   </head>
   <body>
-    <div id="display-text"></div>
-    <button id="draw-button">Draw</button>
+    <!-- Display a random piece of stored text -->
+     <div id="display-text"></div>
+     <button id="draw-button">Draw</button>
+     <button id="delete-button">Delete</button>
+    
+    <!-- Save new text -->
+     <label for="new-text">Text: </label>
+     <input type="text" id="new-text">
+     <label for="new-author">Author: </label>
+     <input type="author" id="new-author">
+     <button id="save-button">Save</button>
 
   </body>
 </html>

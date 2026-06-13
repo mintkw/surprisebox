@@ -143,5 +143,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
-# VSCode configurations directory
+# Misc
 .vscode
+test_data.csv
