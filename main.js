@@ -1,9 +1,9 @@
-const { app, BrowserWindow, ipcMain } = require('electron/main')
+const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron/main')
 const path = require('node:path')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
+    width: 700,
     height: 600,
     webPreferences: {
       nodeIntegration: true,
@@ -11,6 +11,8 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js')
     }
   })
+
+  nativeTheme.themeSource = 'light';
 
   win.loadFile('index.html')
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
@@ -9,14 +9,31 @@
     
     <script src="./renderer.js" defer></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+
     <title>Surprisebox</title>
     
   </head>
   <body>
-     <div id="main-window"></div>
-     <button id="draw-button">Draw</button>
-     <button id="save-write-button">Write</button>
-     <button id="delete-button">Delete</button>
+    <!-- Space where the reading and writing displays go -->
+     <div id="main-window">
+      <div id="display-div"></div>
+      <div id="input-div">
+        <label for="new-text">Text:</label>
+        <textarea id="new-text"></textarea>
+        <label for="new-source">Source:</label>
+        <textarea id="new-source" rows="1"></textarea>
+      </div>
+     </div>
+
+    <!-- Controls -->
+    <div id="buttons">
+    <button id="draw-button" class="button">DRAW</button>
+    <button id="save-write-button" class="button round-button"></button>
+    <button id="delete-button" class="button round-button"></button>
+    </div>
 
   </body>
 </html>

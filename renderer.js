@@ -10,7 +10,8 @@ let read_state = true;
 let texts = null;
 
 function clearTextDisplay() {
-    document.getElementById('main-window').innerText = "";
+    document.getElementById('display-div').innerHTML = "";
+    console.log("screen cleared");
     display_idx = -1;
     read_state = true;
 }
@@ -19,12 +20,16 @@ document.getElementById('draw-button').addEventListener('click', async () => {
     console.log("draw button clicked");
     if (!read_state) {
         // Change appearance of buttons
-        document.getElementById('save-write-button').innerText = "Write";
+        document.getElementById('save-write-button').style.backgroundImage = "url('assets/retro-write-button.png')";
 
         // Make delete button available
         const delete_button = document.getElementById('delete-button');
-        delete_button.style.visibility = 'visible';
         delete_button.disabled = false;
+
+        // Clear input fields and hide writing screen
+        document.getElementById('new-text').value = "";
+        document.getElementById('new-source').value = "";
+        document.getElementById('input-div').style.visibility = "hidden";
     }
 
     read_state = true;
@@ -33,10 +38,10 @@ document.getElementById('draw-button').addEventListener('click', async () => {
     // Only read text database again if display_idx is 0, meaning an update has occurred.
     if (display_idx == -1) {
         try {
-            const data = fs.readFileSync('data.csv', 'utf8');
+            const data = fs.readFileSync('data.txt', 'utf8');
             // Parse into a list of lists
             texts = data.split('\n').slice(1);
-            texts = texts.map(line => line.split(','));
+            texts = texts.map(line => line.split('//'));
         } catch (read_err) {
             console.error(read_err);
         }
@@ -53,65 +58,61 @@ document.getElementById('draw-button').addEventListener('click', async () => {
 
     display_idx = Math.floor(Math.random() * (num_texts));
     let random_text = texts[display_idx];
-    let display_text = document.createElement('div');
-    display_text.id = "display-text";
-    let text_content = document.createTextNode(`\n${random_text[0]} - ${random_text[1]}`);
-    display_text.appendChild(text_content);
+    display_div = document.getElementById("display-div");
+    display_div.style.visibility = "visible";
 
-    document.getElementById('main-window').appendChild(display_text);
+    // Create string to be displayed
+    let text_content = random_text[0].split("<br>");
+    console.log(texts);
+    console.log(text_content);
+    for (const par of text_content) {
+        let par_element = document.createElement('p');
+        par_element.innerText = par;
+        display_div.appendChild(par_element);
+        console.log(par);
+    }
+
+    let source_element = document.createElement('p');
+    source_element.innerText = `— ${random_text[1]}`;
+    source_element.className = "attribution";
+    display_div.appendChild(source_element);
+
+    document.getElementById('main-window').appendChild(display_div);
 })
 
 document.getElementById('save-write-button').addEventListener('click', async () => {
     console.log("Save/Write button clicked");
 
     if (read_state) {
-        // Disable and hide delete button
+        // Disable delete button
         const delete_button = document.getElementById('delete-button');
-        delete_button.style.visibility = 'hidden';
         delete_button.disabled = true;
-        clearTextDisplay();
 
-        // Add input fields
-        const main_window = document.getElementById('main-window');
-        const fragment = document.createDocumentFragment();
-        const text_label = document.createElement("label");
-        text_label.htmlFor = "new-text";
-        text_label.textContent = "Text: ";
-        fragment.appendChild(text_label);
+        // Hide reading screen
+        document.getElementById('display-div').style.visibility = "hidden";
 
-        const text_input = document.createElement("input");
-        text_input.type = "text";
-        text_input.id = "new-text";
-        fragment.appendChild(text_input);
-
-        const author_label = document.createElement("label");
-        author_label.htmlFor = "new-author";
-        author_label.textContent = "Author: ";
-        fragment.appendChild(author_label);
-
-        const author_input = document.createElement("input");
-        author_input.type = "text";
-        author_input.id = "new-author";
-        fragment.appendChild(author_input);
-
-        main_window.appendChild(fragment);
+        // Show writing screen
+        document.getElementById("input-div").style.visibility = "visible";
 
         read_state = false;
-        document.getElementById('save-write-button').innerText = "Save";
+        document.getElementById('save-write-button').style.backgroundImage = "url('assets/retro-save-button.png')";
     } else {
         let textbox = document.getElementById('new-text');
-        let authorbox = document.getElementById('new-author');
+        let sourcebox = document.getElementById('new-source');
         let new_text = textbox.value;
-        let new_author = authorbox.value;
+        // Process newline characters
+        new_text = new_text.replace(/\n/g, "<br>");
+        let new_source = sourcebox.value;
 
         // Clear input boxes
         textbox.value = "";
-        authorbox.value = "";
+        sourcebox.value = "";
 
         // Append new entry to the file
-        let content = `\n${new_text},${new_author}`;
+        let content = `\n${new_text}//${new_source}`;
+        console.log(content);
         try {
-            fs.appendFileSync('./data.csv', content);
+            fs.appendFileSync('./data.txt', content);
         } catch (err) {
             console.error(err);
         }
@@ -127,12 +128,16 @@ document.getElementById('delete-button').addEventListener('click', async () => {
     }
 
     try {
-        const data = fs.readFileSync('data.csv', 'utf8');
+        const data = fs.readFileSync('data.txt', 'utf8');
         let texts = data.split('\n');
-        texts = texts.map(line => line.split(','));
-        let updated_text = texts.slice(0, display_idx + 1).concat(texts.slice(display_idx + 2)).join("\n");  // since the header is included, this_idx is incremented
+        texts = texts.map(line => line.split('//'));
+
+        // since the header is included, this_idx is considered with a +1 increment
+        let updated_text = texts.slice(0, display_idx + 1).concat(texts.slice(display_idx + 2)).map(line => line.join('//'));  // make a list of '//'-delimited strings
+        updated_text = updated_text.join("\n");  // convert the list to a string
+
         try {
-            fs.writeFileSync('data.csv', updated_text);
+            fs.writeFileSync('data.txt', updated_text);
         } catch (write_err) {
             console.error(write_err);
         }

@@ -1,6 +1,183 @@
-#main-window {
-    height: 100px;
-    width: 100%;
-    padding: 10px;
-    border: 0.5px solid black;
+:root {
+    --screen-grey: #737373;
+    --scrollbar-color: #b2b2b2;
 }
+
+p {
+    margin-top: 0;
+}
+
+/* CORE INTERFACE */
+body {
+    position: absolute;
+    background-image: url("assets/retro-body.png");
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: var(--screen-grey);
+    font-family: "Inconsolata", monospace;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    font-size: 11pt;
+}
+
+#main-window {
+    position: absolute;
+    height: 60%;
+    width: 90%;
+    background-image: url("assets/retro-screen.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 0;
+    top: 10%;
+    left: 5%;
+}
+
+#buttons {
+    position: relative;
+    height: 18%;
+    width: 90%;
+    top: 75%;
+    left: 5%;
+    box-sizing: border-box;
+}
+
+.button {
+    position: relative;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: none;
+    color: white;
+    transition: all .15s;
+
+    letter-spacing: 1px;
+    font-size: 12pt;
+    font-family: 'Helvetica';
+    font-weight: 400;
+    /* font-style: italic; */
+
+    /* Vertically centre */
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+/* pushing effect */
+.button:active:enabled {
+    transform: translate(0, -45%);
+    transition: 0s;
+}
+
+#draw-button {
+    position: absolute;
+    background-image: url("assets/retro-button-square.png");
+    height: 100%;
+    width: 30%;
+    left: 35%;
+    border-radius: 5px;
+}
+
+.round-button {
+    position: relative;
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    margin: 0 10px;
+
+    left: 70%;
+}
+
+#save-write-button {
+    background-image: url("assets/retro-write-button.png");
+}
+
+#delete-button {
+    background-image: url("assets/retro-delete-button.png");
+}
+
+#delete-button:disabled {
+    opacity: 50%;
+}
+
+/* READING VIEW */
+#display-div {
+    position: absolute;
+    text-align: justify;
+    overflow-y: scroll;
+    height: 84%;
+    width: 92%;
+    top: 8%;
+    left: 4%;
+    box-sizing: border-box;
+    padding: 0% 2%;
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
+/* source of the text */
+.attribution {
+    text-align: right;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 2px;
+    left: 20px;
+    opacity: 50%;
+}
+
+::-webkit-scrollbar, ::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color);
+}
+
+
+/* WRITING MODE */
+#input-div {
+    visibility: hidden;  /* hidden only on launch */
+    position: absolute;
+    text-align: justify;
+    overflow: hidden;
+    height: 84%;
+    width: 92%;
+    top: 8%;
+    left: 4%;
+    box-sizing: border-box;
+    padding: 0% 2%;
+    color: var(--screen-grey);
+}
+
+textarea {
+    position: relative;
+    width: 100%;
+    resize: none;
+    background: transparent;
+    border-width: 2px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    outline: none;
+    color: var(--screen-grey);
+}
+
+#new-text {
+    height: 50%
+}
+
+label {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+
