@@ -7,6 +7,12 @@ p {
     margin-top: 0;
 }
 
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('./resources/Inconsolata-VariableFont_wdth\,wght.ttf');
+  font-weight: 600;
+}
+
 /* CORE INTERFACE */
 body {
     position: absolute;
@@ -22,7 +28,6 @@ body {
     background-size: 100% 100%;
     color: var(--screen-grey);
     font-family: "Inconsolata", monospace;
-    font-weight: 600;
     letter-spacing: 0.2px;
     font-size: 11pt;
 }

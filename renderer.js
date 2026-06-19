@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const path = require('node:path')
 
 // Index of the text piece currently being displayed
 let display_idx = -1;
@@ -6,10 +7,13 @@ let display_idx = -1;
 // Current state of the app
 let read_state = true;
 
+// Name of storage file
+let data_json = path.join(process.cwd(), "resources", "data.json");
+
 // Database cache - read on startup
 let texts = null;
 try {
-    const data = fs.readFileSync('data.json', 'utf8');
+    const data = fs.readFileSync(data_json, 'utf8');
     // Parse into a list of lists
     texts = JSON.parse(data).texts;
 } catch (read_err) {
@@ -27,7 +31,7 @@ function writeCacheToStorage() {
     let updated_content = {"texts": texts};
     updated_content = JSON.stringify(updated_content, null, 2);
     try {
-        fs.writeFileSync('./data.json', updated_content, 'utf8');
+        fs.writeFileSync(data_json, updated_content, 'utf8');
     } catch (err) {
         console.error(err);
     }
