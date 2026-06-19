@@ -36,7 +36,7 @@ body {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     margin: 0;
-    top: 10%;
+    top: 8%;
     left: 5%;
 }
 
@@ -44,7 +44,7 @@ body {
     position: relative;
     height: 18%;
     width: 90%;
-    top: 75%;
+    top: 74%;
     left: 5%;
     box-sizing: border-box;
 }
@@ -109,7 +109,7 @@ body {
 /* READING VIEW */
 #display-div {
     position: absolute;
-    text-align: justify;
+    text-align: left;
     overflow-y: scroll;
     height: 84%;
     width: 92%;
@@ -147,7 +147,7 @@ body {
 #input-div {
     visibility: hidden;  /* hidden only on launch */
     position: absolute;
-    text-align: justify;
+    text-align: left;
     overflow: hidden;
     height: 84%;
     width: 92%;
@@ -169,6 +169,10 @@ textarea {
     margin-bottom: 20px;
     outline: none;
     color: var(--screen-grey);
+}
+
+textarea::placeholder {
+    opacity: 70%;
 }
 
 #new-text {

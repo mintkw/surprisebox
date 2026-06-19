@@ -1,0 +1,16 @@
+{
+  "texts": [
+    {
+      "text": "Text 1",
+      "source": "A"
+    },
+    {
+      "text": "Text 2",
+      "source": "B"
+    },
+    {
+      "text": "Text 3",
+      "source": "C"
+    }
+  ]
+}
