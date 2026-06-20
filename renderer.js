@@ -1,40 +1,19 @@
-const fs = require('node:fs');
-const path = require('node:path')
-
 // Index of the text piece currently being displayed
 let display_idx = -1;
 
 // Current state of the app
 let read_state = true;
 
-// Name of storage file
-let data_json = path.join(process.cwd(), "resources", "data.json");
-
 // Database cache - read on startup
 let texts = null;
-try {
-    const data = fs.readFileSync(data_json, 'utf8');
-    // Parse into a list of lists
-    texts = JSON.parse(data).texts;
-} catch (read_err) {
-    console.error(read_err);
-}
+window.dataStorage.read().then((result) => {
+    texts = result;
+})
 
 function clearTextDisplay() {
     document.getElementById('display-div').innerHTML = "";
     display_idx = -1;
     read_state = true;
-}
-
-function writeCacheToStorage() {
-    // Overwrite the current storage space with the cache.
-    let updated_content = {"texts": texts};
-    updated_content = JSON.stringify(updated_content, null, 2);
-    try {
-        fs.writeFileSync(data_json, updated_content, 'utf8');
-    } catch (err) {
-        console.error(err);
-    }
 }
 
 document.getElementById('draw-button').addEventListener('click', async () => {
@@ -115,7 +94,7 @@ document.getElementById('save-write-button').addEventListener('click', async () 
         // Append new entry to the file
         let new_entry = {"text": new_text, "source": new_source};
         texts.push(new_entry);
-        writeCacheToStorage();
+        window.dataStorage.writeCacheToStorage(texts);
     }
 })
 
@@ -127,7 +106,7 @@ document.getElementById('delete-button').addEventListener('click', async () => {
 
     try {
         texts = texts.slice(0, display_idx).concat(texts.slice(display_idx + 1))
-        writeCacheToStorage();
+        window.dataStorage.writeCacheToStorage(texts);
     } catch (read_err) {
         console.error(read_err);
     }

@@ -37,7 +37,7 @@
           "name": "@electron-forge/maker-zip",
           "platforms": [
             "win32",
-            "macos"
+            "darwin"
           ]
         }
       ],
@@ -45,7 +45,7 @@
         "extraResource": [
           "./resources/data.json"
         ],
-        "icon": "./assets/surprisebox.ico"
+        "icon": "./assets/surprisebox"
       }
     }
   }
