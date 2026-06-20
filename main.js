@@ -3,7 +3,6 @@ const path = require('node:path')
 const fs = require('node:fs')
 
 // Name of storage file
-// let data_json = path.join(process.cwd(), "resources", "data.json");
 let data_json = path.join(app.getPath('userData'), "data.json");
 
 const createWindow = () => {

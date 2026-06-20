@@ -1,5 +1,5 @@
 {
-  "name": "surprisebox",
+  "name": "Surprisebox",
   "version": "1.0.0",
   "description": "A toybox you can draw slips of paper from.",
   "license": "ISC",
@@ -42,9 +42,6 @@
         }
       ],
       "packagerConfig": {
-        "extraResource": [
-          "./resources/data.json"
-        ],
         "icon": "./assets/surprisebox"
       }
     }
