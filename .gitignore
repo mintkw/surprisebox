@@ -146,3 +146,4 @@ vite.config.ts.timestamp-*
 # Misc
 .vscode
 test_data.csv
+.DS_Store

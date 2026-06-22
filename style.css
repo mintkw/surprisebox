@@ -1,5 +1,6 @@
 :root {
     --screen-grey: #737373;
+    --light-grey: #dcdcdc;
     --scrollbar-color: #b2b2b2;
 }
 
@@ -153,7 +154,7 @@ body {
     visibility: hidden;  /* hidden only on launch */
     position: absolute;
     text-align: left;
-    overflow: hidden;
+    /* overflow: scroll; */
     height: 84%;
     width: 92%;
     top: 8%;
@@ -169,9 +170,9 @@ textarea {
     resize: none;
     background: transparent;
     border-width: 2px;
-    padding: 10px;
+    padding: 5px 10px;
     box-sizing: border-box;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     outline: none;
     color: var(--screen-grey);
 }
@@ -181,7 +182,11 @@ textarea::placeholder {
 }
 
 #new-text {
-    height: 50%
+    height: 45%
+}
+
+#new-source{
+    height: 20%
 }
 
 label {
@@ -190,3 +195,31 @@ label {
     margin-bottom: 10px;
 }
 
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+}
+
+.autocomplete-items {
+    position: relative;
+    /* Position autocomplete items flush with the bottom of the input box */
+    top: -10px;
+    left: 0;
+    right: 0;
+}
+.autocomplete-items div {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: white;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.autocomplete-items div:hover {
+    background-color: var(--light-grey);
+}
+
+.autocomplete-active {
+    background-color: var(--scrollbar-color) !important;
+    color: white
+}

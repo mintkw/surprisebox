@@ -28,15 +28,13 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.handle('data-storage:read', () => {
-  let texts = [];
+  let data = null;
   try {
-    const data = fs.readFileSync(data_json, 'utf8');
-    // Parse into a list of lists
-    texts = JSON.parse(data).texts;
+    data = fs.readFileSync(data_json, 'utf8');
   } catch (read_err) {
       console.error(read_err);
   }
-  return texts;
+  return data;
 })
 
 ipcMain.handle('data-storage:write-cache', (event, texts) => {
