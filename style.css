@@ -56,7 +56,6 @@ body {
 }
 
 .button {
-    position: relative;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -108,8 +107,14 @@ body {
     background-image: url("assets/retro-delete-button.png");
 }
 
-#delete-button:disabled {
+.button:disabled {
     opacity: 50%;
+}
+
+#edit-button {
+    background-image: url("assets/retro-edit-button.png");
+    position: absolute;
+    left: 17%;
 }
 
 /* READING VIEW */

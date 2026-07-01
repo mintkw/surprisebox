@@ -2,8 +2,7 @@
 
 ![app demonstration](demo.gif)
 
-A cross-platform desktop app built using Electron allowing users to build and maintain a database of textual quotes. Each time a button is clicked, a random quote is drawn from the database and displayed. Quotes can be added and removed through the UI.
-
+A cross-platform desktop app built using Electron allowing users to build and maintain a personal database of quotes. Each time a button is clicked, a random quote is drawn from the database and displayed. Quotes can be added and removed through the UI.
 
 # Usage instructions
 ## Prerequisites
@@ -25,4 +24,6 @@ The produced distributable will be located in `out/make`.
 
 # Acknowledgements
 
-The [W3Schools Autocomplete tutorial code](https://www.w3schools.com/howto/howto_js_autocomplete.asp) was referenced in creating the autocomplete feature for the 'source' input field, which suggests matching values from all previously saved values to the current input as the user types.
+The [W3Schools Autocomplete tutorial code](https://www.w3schools.com/howto/howto_js_autocomplete.asp) was referenced in creating the autocomplete feature for the 'source' input field, which suggests previously-saved values that match the current input in real time as the user types.
+
+Pencil icon on edit button created by Pixel perfect - [Flaticon]("https://www.flaticon.com/free-icons/pencil")

@@ -2,7 +2,7 @@
 let display_idx = -1;
 
 // Current state of the app
-let read_state = true;
+let state = 'read';
 
 // Database cache - read on startup
 let texts = [];
@@ -25,17 +25,27 @@ function getSources() {
 function clearTextDisplay() {
     document.getElementById('display-div').innerHTML = "";
     display_idx = -1;
-    read_state = true;
 }
 
 document.getElementById('draw-button').addEventListener('click', async () => {
-    if (!read_state) {
-        // Change appearance of save/write buttons
+    let num_texts = texts.length;
+
+    if (state != 'read') {
+        // Change appearance of save/write and edit buttons
         document.getElementById('save-write-button').style.backgroundImage = "url('assets/retro-write-button.png')";
+        document.getElementById('edit-button').style.backgroundImage = "url('assets/retro-edit-button.png')";
 
         // Make delete button available
         const delete_button = document.getElementById('delete-button');
         delete_button.disabled = false;
+
+        // Make write button available
+        const write_button = document.getElementById('save-write-button');
+        write_button.disabled = false;
+
+        // Make edit button available
+        const edit_button = document.getElementById('edit-button');
+        edit_button.disabled = false;
 
         // Clear input fields and hide writing screen
         document.getElementById('new-text').value = "";
@@ -43,10 +53,16 @@ document.getElementById('draw-button').addEventListener('click', async () => {
         document.getElementById('input-div').style.visibility = "hidden";
     }
 
-    read_state = true;
-    clearTextDisplay();
+    // Define the index of the entry to be displayed
+    let new_display_idx = display_idx;
+    if (state == 'read') {
+        // Generate a fresh random index into the database if already in reading mode.
+        new_display_idx = Math.floor(Math.random() * (num_texts));
+    }
 
-    let num_texts = texts.length;
+    state = 'read';
+    clearTextDisplay();
+    display_idx = new_display_idx;
 
     // Make reading display available
     let display_div = document.getElementById("display-div");
@@ -56,14 +72,11 @@ document.getElementById('draw-button').addEventListener('click', async () => {
         display_idx = -1;
         console.log("Database empty; no texts to show");
         display_div.innerText = "(No texts stored)";
-
     } else {
-        // Generate the index of the text to be shown
-        display_idx = Math.floor(Math.random() * (num_texts));
-        let random_text = texts[display_idx];
+        let text_to_display = texts[display_idx];
 
         // Create string to be displayed
-        let text_content = random_text.text.split("\n");
+        let text_content = text_to_display.text.split("\n");
         for (const par of text_content) {
             let par_element = document.createElement('p');
             par_element.innerText = par;
@@ -71,7 +84,7 @@ document.getElementById('draw-button').addEventListener('click', async () => {
         }
 
         let source_element = document.createElement('p');
-        source_element.innerText = `— ${random_text.source}`;
+        source_element.innerText = `— ${text_to_display.source}`;
         source_element.className = "attribution";
         display_div.appendChild(source_element);
     }
@@ -81,35 +94,46 @@ document.getElementById('save-write-button').addEventListener('click', async () 
     // Update list of sources
     sources = getSources();
 
-    if (read_state) {
-        // Disable delete button
-        const delete_button = document.getElementById('delete-button');
-        delete_button.disabled = true;
+    switch (state) {
+        case 'read':
+            // Disable delete button
+            const delete_button = document.getElementById('delete-button');
+            delete_button.disabled = true;
 
-        // Hide reading screen
-        document.getElementById('display-div').style.visibility = "hidden";
+            // Disable edit button
+            const edit_button = document.getElementById('edit-button');
+            edit_button.disabled = true;
 
-        // Show writing screen
-        document.getElementById("input-div").style.visibility = "visible";
+            // Hide reading screen
+            document.getElementById('display-div').style.visibility = "hidden";
 
-        read_state = false;
-        document.getElementById('save-write-button').style.backgroundImage = "url('assets/retro-save-button.png')";
+            // Show writing screen
+            document.getElementById("input-div").style.visibility = "visible";
 
-    } else {
-        // Get input
-        let textbox = document.getElementById('new-text');
-        let sourcebox = document.getElementById('new-source');
-        let new_text = textbox.value;
-        let new_source = sourcebox.value;
+            document.getElementById('save-write-button').style.backgroundImage = "url('assets/retro-save-button.png')";
 
-        // Clear input boxes
-        textbox.value = "";
-        sourcebox.value = "";
+            state = 'write';
+            break;
+        
+        case 'write':
+            // Get input
+            let textbox = document.getElementById('new-text');
+            let sourcebox = document.getElementById('new-source');
+            let new_text = textbox.value;
+            let new_source = sourcebox.value;
 
-        // Append new entry to the file
-        let new_entry = {"text": new_text, "source": new_source};
-        texts.push(new_entry);
-        window.dataStorage.writeCacheToStorage(texts);
+            // Clear input boxes
+            textbox.value = "";
+            sourcebox.value = "";
+
+            // Append new entry to the file
+            let new_entry = {"text": new_text, "source": new_source};
+            texts.push(new_entry);
+            window.dataStorage.writeCacheToStorage(texts);
+            break;
+
+        default:
+            console.error("Invalid action performed: save/write button clicked in unrecognised state");
     }
 })
 
@@ -123,6 +147,57 @@ document.getElementById('delete-button').addEventListener('click', async () => {
     window.dataStorage.writeCacheToStorage(texts);
 
     clearTextDisplay();
+})
+
+document.getElementById('edit-button').addEventListener('click', async () => {
+    let textbox = document.getElementById('new-text');
+    let sourcebox = document.getElementById('new-source');
+    
+    switch (state) {
+        case 'read':
+            // Disable delete button
+            const delete_button = document.getElementById('delete-button');
+            delete_button.disabled = true;
+
+            // Disable write button
+            const write_button = document.getElementById('save-write-button');
+            write_button.disabled = true;
+
+            // Hide reading screen
+            document.getElementById('display-div').style.visibility = "hidden";
+
+            // Pre-populate editing fields and show writing screen
+            textbox.value = texts[display_idx].text;
+            sourcebox.value = texts[display_idx].source;
+            document.getElementById("input-div").style.visibility = "visible";
+
+            document.getElementById('edit-button').style.backgroundImage = "url('assets/retro-save-button.png')";
+
+            state = 'edit';
+            break;
+
+        case 'edit':
+            // Update the values of the current entry and return to the original reading screen.
+            // Get input
+            let new_text = textbox.value;
+            let new_source = sourcebox.value;
+
+            // Clear input boxes
+            textbox.value = "";
+            sourcebox.value = "";
+
+            // Update entry
+            texts[display_idx]["text"] = new_text;
+            texts[display_idx]["source"] = new_source;
+            window.dataStorage.writeCacheToStorage(texts);
+
+            // Simulate click on draw button to return to reading screen
+            document.getElementById('draw-button').click();
+            break;
+
+        default:
+            console.error("Invalid action performed: save/edit button clicked in unrecognised state");
+    }
 })
 
 // Autocomplete for source field based on all previously entered sources
