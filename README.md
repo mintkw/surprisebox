@@ -26,4 +26,4 @@ The produced distributable will be located in `out/make`.
 
 The [W3Schools Autocomplete tutorial code](https://www.w3schools.com/howto/howto_js_autocomplete.asp) was referenced in creating the autocomplete feature for the 'source' input field, which suggests previously-saved values that match the current input in real time as the user types.
 
-Pencil icon on edit button created by Pixel perfect - [Flaticon]("https://www.flaticon.com/free-icons/pencil")
+Pencil icon on edit button created by Pixel perfect - [Flaticon](https://www.flaticon.com/free-icons/pencil)
